@@ -9,18 +9,29 @@ namespace DatabaseConnection
             string CONN_STRING = "Data Source=DESKTOP-2ESDHDD;Initial Catalog= DataBaseCommands;Integrated Security=True;Encrypt=False;";
             SqlConnection con = new SqlConnection(CONN_STRING);
             con.Open();
-            //SqlCommand cmd = new SqlCommand("deleteWithOrderDetails", con);
-            SqlCommand cmd = con.CreateCommand();
-
-            //selecting and display of table data
-            /*SqlDataReader reader = cmd.ExecuteReader();
-            //cmd.CommandText = "SELECT * FROM orderDetails";
-            Console.WriteLine("OrderID  CustomerID    OrderDate");
+            /*SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = $"select * from PassengerDetails";
+            SqlDataReader reader = cmd.ExecuteReader();
+            Console.WriteLine("RollNo    Name");
             while (reader.Read())
-            { 
-                Console.WriteLine($"{reader.GetInt32(0)}      {reader.GetInt32(1)}          {reader.GetDateTime(2).ToShortDateString()}");
+            {
+                Console.WriteLine($"{reader.GetInt32(0)}      {reader.GetString(1)}");
             }
+            reader.Close();
+            con.Close();
+*/
 
+
+            //SqlCommand cmd = con.CreateCommand();
+            //selecting and display of table data
+            /*  SqlDataReader reader = cmd.ExecuteReader();
+              //cmd.CommandText = "SELECT * FROM orderDetails";
+              Console.WriteLine("OrderID  CustomerID    OrderDate");
+              while (reader.Read())
+              { 
+                  Console.WriteLine($"{reader.GetInt32(0)}      {reader.GetInt32(1)}          {reader.GetDateTime(2).ToShortDateString()}");
+              }
+  */
 
             /*passing a parameter from user to sql
             int id = Convert.ToInt32(Console.ReadLine());
@@ -37,8 +48,9 @@ namespace DatabaseConnection
             {
                 Console.WriteLine($"{reader.GetInt32(0)}\t\t{reader.GetString(1)}\t\t{reader.GetInt32(2)}\t\t{reader.GetString(3)}\t\t{reader.GetInt32(4)}");
             }*/
+
             //updation of a table
-            try
+            /*try
             {
                 int id1 = Convert.ToInt32(Console.ReadLine());
                 cmd.CommandText = $"select count(*) from EmployeeDB where Id={id1}";
@@ -48,7 +60,6 @@ namespace DatabaseConnection
                     cmd.CommandText = $"UPDATE EmployeeDB set Salary= 20000 where Id = {id1}" +
                         $"Select * from EmployeeDB where Id = {id1}";
                     cmd.ExecuteReader().Close();
-
                     SqlDataReader rd = cmd.ExecuteReader();
                     while (rd.Read())
                     {
@@ -65,16 +76,35 @@ namespace DatabaseConnection
             {
                 Console.WriteLine ($"Error: {e.Message}");
             }
-            
+*/
+
+            /*//get column name 
+            reader.GetColumnSchema().ToList().ForEach((x) => { Console.WriteLine(x); });*/
+
+
 
             //stored Procedure
-            /*int input = int.Parse(Console.ReadLine());
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.Add("@S_orderId", SqlDbType.Int).Value = input;
+            SqlCommand cmd = new SqlCommand("UpdateTrainDetails", con);
+            int input = int.Parse(Console.ReadLine());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@U_TrainID", SqlDbType.Int).Value = input;
+            cmd.ExecuteNonQuery();
+            con.Close();
 
-            */
-            /*reader.Close();
-            con.Close();*/
+            // SqlCommand cmd = new SqlCommand("UpdateTrainDetails", con);
+            //int TrainID = int.Parse(Console.ReadLine());
+            /*SqlCommand cmd = new SqlCommand("UpdateTrainDetails", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("@U_TrainID", SqlDbType.Int).Value = 1202;
+            Console.WriteLine("executed");*/
+            //selecting and display of table data
+
+
+
+
+
+            //stored procedure with multiple tables
+
 
         }
     }
